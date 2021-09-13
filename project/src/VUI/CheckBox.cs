@@ -74,7 +74,7 @@ namespace VUI
 			var s = Root.FitText(
 				Font, FontSize, text_, new Size(maxWidth, maxHeight));
 
-			s.Width += Style.Metrics.ToggleLabelSpacing + 30;
+			s.Width += Style.Metrics.ToggleLabelSpacing + 35;
 
 			// todo: text doesn't appear without this, sounds like FitText() is
 			// off by one?
