@@ -16,6 +16,7 @@ project\src\VUI\Panel.cs
 project\src\VUI\Root.cs
 project\src\VUI\Slider.cs
 project\src\VUI\Style.cs
+project\src\VUI\Support.cs
 project\src\VUI\Tabs.cs
 project\src\VUI\TextBox.cs
 project\src\VUI\Timer.cs
