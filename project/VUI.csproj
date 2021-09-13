@@ -119,6 +119,7 @@
     <Compile Include="src\VUI\TreeView.cs" />
     <Compile Include="src\VUI\TypedList.cs" />
     <Compile Include="src\VUI\Utilities.cs" />
+    <Compile Include="src\VUI\Version.cs" />
     <Compile Include="src\VUI\Widget.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
