@@ -17,6 +17,30 @@ namespace VUI
 
 	abstract class BasicRootSupport : IRootSupport
 	{
+		protected class InitResults
+		{
+			public bool ok;
+			public Rectangle bounds;
+			public float topOffset;
+
+			public InitResults(Rectangle b, float to)
+			{
+				ok = true;
+				bounds = b;
+				topOffset = to;
+			}
+
+			public static InitResults Failed
+			{
+				get
+				{
+					var r = new InitResults(Rectangle.Zero, 0);
+					r.ok = false;
+					return r;
+				}
+			}
+		}
+
 		private Canvas canvas_ = null;
 		private Rectangle bounds_ = Rectangle.Zero;
 		private float topOffset_ = 0;
@@ -29,7 +53,18 @@ namespace VUI
 		public abstract Transform RootParent { get; }
 
 		public abstract void Destroy();
-		public abstract bool Init();
+
+		public bool Init()
+		{
+			var r = DoInit();
+			if (!r.ok)
+				return false;
+
+			bounds_ = r.bounds;
+			topOffset_ = r.topOffset;
+
+			return true;
+		}
 
 		public virtual Point ToLocal(Vector2 v)
 		{
@@ -51,12 +86,7 @@ namespace VUI
 			return new Point(pp.x, pp.y);
 		}
 
-		protected void SetBounds(Rectangle r, float topOffset)
-		{
-			bounds_ = r;
-			topOffset_ = topOffset;
-		}
-
+		protected abstract InitResults DoInit();
 		protected abstract Canvas GetCanvas();
 	}
 
@@ -81,21 +111,21 @@ namespace VUI
 			get { return sui_?.fullWidthUIContent; }
 		}
 
-		public override bool Init()
+		protected override InitResults DoInit()
 		{
 			if (sui_ == null)
 			{
 				if (s_.UITransform == null)
 				{
 					Glue.LogVerbose("scriptui support: not ready, no UITransform");
-					return false;
+					return InitResults.Failed;
 				}
 
 				sui_ = s_.UITransform.GetComponentInChildren<MVRScriptUI>();
 				if (sui_ == null)
 				{
 					Glue.LogVerbose("scriptui support: not ready, no scriptui");
-					return false;
+					return InitResults.Failed;
 				}
 			}
 
@@ -108,10 +138,12 @@ namespace VUI
 					$"scriptui support: not ready, scroll view size is " +
 					$"{scrollViewRT.rect}");
 
-				return false;
+				return InitResults.Failed;
 			}
 
 			Glue.LogVerbose("scriptui support: ready, initing");
+
+			Style.SetupRoot(sui_);
 
 			var bounds = Rectangle.FromPoints(
 					1, 1,
@@ -120,10 +152,7 @@ namespace VUI
 
 			var topOffset = scrollViewRT.offsetMin.y - scrollViewRT.offsetMax.y;
 
-			SetBounds(bounds, topOffset);
-			Style.SetupRoot(sui_);
-
-			return true;
+			return new InitResults(bounds, topOffset);
 		}
 
 		public override void Destroy()
@@ -161,20 +190,19 @@ namespace VUI
 			get { return hudPanel_.transform; }
 		}
 
-		public override bool Init()
+		protected override InitResults DoInit()
 		{
 			CreateFullscreenPanel(Camera.main.transform);
 			CreateHudPanel();
 
 			var rt = RootParent.GetComponent<RectTransform>();
 
-			var topOffset = rt.offsetMin.y - rt.offsetMax.y;
 			var bounds = Rectangle.FromPoints(
 				0, 0, rt.rect.width, rt.rect.height);
 
-			SetBounds(bounds, topOffset);
+			var topOffset = rt.offsetMin.y - rt.offsetMax.y;
 
-			return true;
+			return new InitResults(bounds, topOffset);
 		}
 
 		public override void Destroy()
@@ -296,11 +324,19 @@ namespace VUI
 			}
 		}
 
-		public override bool Init()
+		protected override InitResults DoInit()
 		{
 			CreateFullscreenPanel(HandTransform);
 			CreateHudPanel();
-			return true;
+
+			var rt = RootParent.GetComponent<RectTransform>();
+
+			var bounds = Rectangle.FromPoints(
+				0, 0, rt.rect.width, rt.rect.height);
+
+			var topOffset = rt.offsetMin.y - rt.offsetMax.y;
+
+			return new InitResults(bounds, topOffset);
 		}
 
 		public override void Destroy()
@@ -417,7 +453,7 @@ namespace VUI
 			get { return ui_.transform; }
 		}
 
-		public override bool Init()
+		protected override InitResults DoInit()
 		{
 			panel_ = new GameObject("OverlayRootSupport");
 
@@ -444,7 +480,12 @@ namespace VUI
 
 			SuperController.singleton.AddCanvas(canvas_);
 
-			return true;
+			var bounds = Rectangle.FromPoints(
+				0, 0, rt.rect.width, rt.rect.height);
+
+			var topOffset = rt.offsetMin.y - rt.offsetMax.y;
+
+			return new InitResults(bounds, topOffset);
 		}
 
 		public override void Destroy()

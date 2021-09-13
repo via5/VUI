@@ -253,10 +253,10 @@ namespace VUI
 			content_.SetBounds(bounds_);
 			floating_.SetBounds(bounds_);
 
-			var text = support_.RootParent.root.GetComponentInChildren<Text>();
+			var text = SuperController.singleton.GetComponentInChildren<Text>();
 			if (text == null)
 			{
-				Glue.LogError("no text in attach");
+				Glue.LogError($"no text component in supercontroller");
 			}
 			else
 			{
