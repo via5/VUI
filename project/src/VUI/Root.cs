@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using static Technie.PhysicsCreator.SphereUtils;
 
 namespace VUI
 {
@@ -329,7 +328,7 @@ namespace VUI
 
 		public void Update(bool forceLayout=false)
 		{
-			Utilities.Handler(() =>
+			try
 			{
 				if (ownTm_ != null)
 				{
@@ -356,7 +355,11 @@ namespace VUI
 
 					lastMouse_ = mp;
 				}
-			});
+			}
+			catch (Exception e)
+			{
+				Glue.LogErrorST(e.ToString());
+			}
 		}
 
 		public bool OverlayVisible
