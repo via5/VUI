@@ -94,7 +94,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\Main.cs" />
+    <Compile Include="src\Examples\ScriptUI.cs" />
+    <Compile Include="src\Examples\Widgets\Button.cs" />
+    <Compile Include="src\Examples\Widgets\CheckBox.cs" />
+    <Compile Include="src\Examples\Widgets\ColorPicker.cs" />
+    <Compile Include="src\Examples\Widgets\ComboBox.cs" />
+    <Compile Include="src\Examples\Widgets\Dialog.cs" />
+    <Compile Include="src\Examples\Widgets\Label.cs" />
+    <Compile Include="src\Test.cs" />
     <Compile Include="src\VUI\BorderLayout.cs" />
     <Compile Include="src\VUI\Button.cs" />
     <Compile Include="src\VUI\CheckBox.cs" />

@@ -1,21 +1,14 @@
 ﻿namespace via5
 {
-	class VUIMain : MVRScript
+	class VUITest// : MVRScript
 	{
-		VUI.Root root_ = null;
+		/*VUI.Root root_ = null;
 
 		public override void Init()
 		{
 			base.Init();
 
-			VUI.Glue.Set(
-				() => manager,
-				(s, ps) => string.Format(s, ps),
-				(s) => SuperController.LogError(s),
-				(s) => SuperController.LogError(s),
-				(s) => SuperController.LogError(s),
-				(s) => SuperController.LogError(s));
-
+			VUI.Root.Init(manager);
 			root_ = new VUI.Root(this);
 			root_.ContentPanel.Layout = new VUI.BorderLayout();
 
@@ -42,7 +35,7 @@
 		public void OnDisable()
 		{
 		}
-
+*/
 		public static void Main()
 		{
 		}
