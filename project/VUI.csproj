@@ -101,6 +101,12 @@
     <Compile Include="src\Examples\Widgets\ComboBox.cs" />
     <Compile Include="src\Examples\Widgets\Dialog.cs" />
     <Compile Include="src\Examples\Widgets\Label.cs" />
+    <Compile Include="src\Examples\Widgets\ListView.cs" />
+    <Compile Include="src\Examples\Widgets\Slider.cs" />
+    <Compile Include="src\Examples\Widgets\Tabs.cs" />
+    <Compile Include="src\Examples\Widgets\TextBox.cs" />
+    <Compile Include="src\Examples\Widgets\Tooltip.cs" />
+    <Compile Include="src\Examples\Widgets\TreeView.cs" />
     <Compile Include="src\Test.cs" />
     <Compile Include="src\VUI\BorderLayout.cs" />
     <Compile Include="src\VUI\Button.cs" />
