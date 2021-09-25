@@ -183,11 +183,13 @@ namespace VUI
 			if (root == null)
 				return Rect.zero;
 
+			var rb = root.RootSupport.Bounds;
+
 			var ar = AbsoluteClientBounds;
 
 			return new Rect(
-				ar.Left - root.Bounds.Width / 2 - 2,
-				root.Bounds.Height - ar.Top + ar.Height - 1,
+				ar.Left - rb.Width / 2 - 2,
+				rb.Height - ar.Top - ar.Height,
 				ar.Width, ar.Height + 3);
 		}
 
@@ -287,10 +289,11 @@ namespace VUI
 
 		protected override void DoSetRender(bool b)
 		{
-			base.DoSetRender(b);
+			if (textObject_ != null)
+				textObject_.gameObject.SetActive(b);
 
 			if (ellipsis_ != null)
-				ellipsis_.GetComponent<CanvasRenderer>().cull = !b;
+				ellipsis_.gameObject.SetActive(b);
 		}
 
 		private bool TextTooLong()
