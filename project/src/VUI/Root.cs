@@ -303,8 +303,6 @@ namespace VUI
 			}
 
 			Update(true);
-
-			content_.Dump();
 		}
 
 		public void Destroy()
