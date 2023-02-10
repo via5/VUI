@@ -77,13 +77,16 @@ namespace VUI
 		{
 			if (dirty_ || forceLayout)
 			{
-				var start = Time.realtimeSinceStartup;
-				DoLayout();
-				var t = Time.realtimeSinceStartup - start;
+				if (root_.RootSupport.RootParent.gameObject.activeInHierarchy)
+				{
+					var start = Time.realtimeSinceStartup;
+					DoLayout();
+					var t = Time.realtimeSinceStartup - start;
 
-				Glue.LogVerbose($"layout {Name}: {t:0.000:}s");
+					Glue.LogVerbose($"layout {Name}: {t:0.000:}s");
 
-				dirty_ = false;
+					dirty_ = false;
+				}
 			}
 		}
 
@@ -256,7 +259,7 @@ namespace VUI
 
 		public void SetOpenedPopup(Widget w, UIPopup p)
 		{
-			if (w == null || openedPopupWidget_ == w)
+			if (w == null || openedPopupWidget_ == null || openedPopupWidget_ == w)
 			{
 				openedPopupWidget_ = w;
 				openedPopup_ = p;
@@ -589,7 +592,7 @@ namespace VUI
 			Tooltips.Hide();
 		}
 
-		static private TextGenerator GetTG()
+		static public TextGenerator GetTG()
 		{
 			if (tg_ == null)
 				tg_ = new TextGenerator();
@@ -597,7 +600,7 @@ namespace VUI
 			return tg_;
 		}
 
-		static private TextGenerationSettings GetTS()
+		static public TextGenerationSettings GetTS()
 		{
 			return ts_;
 		}
@@ -687,19 +690,20 @@ namespace VUI
 			ts.resizeTextForBestFit = false;
 
 			var size = Size.Zero;
+			var lines = s.Split('\n');
 
-			foreach (var line in s.Split('\n'))
+			foreach (var line in lines)
 			{
 				// todo: line spacing, but this is broken, really
 				if (size.Height > 0)
 					size.Height += 1;
 
-				size.Width = Math.Max(size.Width, GetTG().GetPreferredWidth(line, ts));
+				size.Width = Math.Max(size.Width, GetWidth(line, ts));
 
 				if (line == "")
-					size.Height += GetTG().GetPreferredHeight("W", ts);
+					size.Height += GetHeight("W", ts);
 				else
-					size.Height += GetTG().GetPreferredHeight(line, ts);
+					size.Height += GetHeight(line, ts);
 			}
 
 			if (maxSize.Width != Widget.DontCare)
@@ -712,6 +716,17 @@ namespace VUI
 			}
 
 			return size;
+		}
+
+		private static float GetWidth(string line, TextGenerationSettings ts)
+		{
+			return GetTG().GetPreferredWidth(line, ts);
+
+		}
+
+		private static float GetHeight(string line, TextGenerationSettings ts)
+		{
+			return GetTG().GetPreferredHeight(line, ts);
 		}
 	}
 }
