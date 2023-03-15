@@ -7,6 +7,7 @@ namespace VUI
 		public override string TypeName { get { return "Panel"; } }
 
 		private GameObject bgObject_ = null;
+		private RectTransform bgObjectRT_ = null;
 		private UnityEngine.UI.Image bgImage_ = null;
 		private Color bgColor_ = new Color(0, 0, 0, 0);
 		private bool clickthrough_ = true;
@@ -43,6 +44,7 @@ namespace VUI
 				if (value != clickthrough_)
 				{
 					clickthrough_ = value;
+					WantsFocus = !value;
 					SetBackground();
 				}
 			}
@@ -76,9 +78,8 @@ namespace VUI
 			SetBackground();
 		}
 
-		public override void UpdateBounds()
+		protected override void AfterUpdateBounds()
 		{
-			base.UpdateBounds();
 			SetBackground();
 		}
 
@@ -109,6 +110,7 @@ namespace VUI
 				bgObject_ = new GameObject("WidgetBackground");
 				bgObject_.transform.SetParent(MainObject.transform, false);
 				bgImage_ = bgObject_.AddComponent<UnityEngine.UI.Image>();
+				bgObjectRT_ = bgObject_.GetComponent<RectTransform>();
 			}
 
 			if (bgObject_ != null)
@@ -120,7 +122,7 @@ namespace VUI
 				var r = new Rectangle(0, 0, Bounds.Size);
 				r.Deflate(Margins);
 
-				Utilities.SetRectTransform(bgObject_, r);
+				Utilities.SetRectTransform(bgObjectRT_, r);
 			}
 		}
 	}
