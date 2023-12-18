@@ -186,6 +186,16 @@ namespace VUI
 		{
 			get { return new Size(300, Widget.DontCare); }
 		}
+
+		public Insets DialogContentPanelPadding
+		{
+			get { return new Insets(10); }
+		}
+
+		public Insets DialogButtonBoxPadding
+		{
+			get { return new Insets(10); }
+		}
 	}
 
 

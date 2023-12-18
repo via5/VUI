@@ -13,12 +13,12 @@
 			root_.ContentPanel.Add(new VUI.Button("test", () =>
 			{
 				var d = new VUI.MessageDialog(
-					root_, VUI.ButtonBox.OK | VUI.ButtonBox.Cancel,
+					root_, VUI.Buttons.OK | VUI.Buttons.Cancel,
 					"dialog title", "dialog text");
 
 				d.RunDialog((r) =>
 				{
-					if (r == VUI.ButtonBox.OK)
+					if (r == VUI.Buttons.OK)
 						SuperController.LogError("ok");
 					else
 						SuperController.LogError("cancel");

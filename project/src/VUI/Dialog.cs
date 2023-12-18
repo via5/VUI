@@ -114,7 +114,9 @@
 		{
 			root_.OverlayVisible = true;
 
-			var ps = GetRealPreferredSize(root_.Bounds.Width * WidthAdjust, root_.Bounds.Height);
+			var ps = GetRealPreferredSize(
+				root_.Bounds.Width * WidthAdjust, root_.Bounds.Height);
+
 			SetBounds(new Rectangle(
 				root_.Bounds.Center.X - (ps.Width / 2),
 				root_.Bounds.Center.Y - (ps.Height / 2),
@@ -173,7 +175,7 @@
 			AddButton(buttons, Buttons.Close, S("Close"));
 
 			Borders = new Insets(0, 1, 0, 0);
-			Padding = new Insets(0, 20, 0, 0);
+			Padding = Style.Metrics.DialogButtonBoxPadding;
 		}
 
 		private void AddButton(int buttons, int id, string text)
@@ -210,6 +212,8 @@
 			base.ContentPanel.Layout = new BorderLayout();
 			base.ContentPanel.Add(center_, BorderLayout.Center);
 			base.ContentPanel.Add(buttons_, BorderLayout.Bottom);
+
+			ContentPanel.Padding = Style.Metrics.DialogContentPanelPadding;
 
 			center_.Margins = new Insets(0, 0, 0, 20);
 		}
